@@ -27,8 +27,7 @@ class WebsitePanel extends React.Component {
           <p style={{ margin: "0" }}>Blacklist Website</p>
           <span
             class="glyphicon glyphicon-plus-sign"
-            style={{ position: "absolute",     right: "3%"
-            top: "22%"}}
+            style={{ position: "absolute", right: "3%", top: "22%" }}
           ></span>
         </button>
 
