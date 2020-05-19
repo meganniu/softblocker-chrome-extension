@@ -11,6 +11,9 @@
 # production
 /build
 
+# contains personal info
+/public/manifest.json
+
 # misc
 .DS_Store
 .env.local

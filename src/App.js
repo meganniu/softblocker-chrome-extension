@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Provider } from "react-redux";
+import "./App.css";
+
+import store from "./store";
+import WebsitePanel from "./components/WebsitePanel";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+      <div
+        className="App"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "300px",
+          width: "500px",
+          padding: "2% 0",
+        }}
+      >
+        <WebsitePanel></WebsitePanel>
+      </div>
+    </Provider>
   );
 }
 
