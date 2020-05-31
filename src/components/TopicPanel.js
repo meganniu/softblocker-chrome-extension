@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
-import { toggleWebsite } from "../actions/websiteActions";
+import { toggleTopic } from "../actions/topicActions";
 import List from "./List";
 
-class WebsitePanel extends React.Component {
+class TopicPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = { redirect: false };
@@ -20,9 +20,8 @@ class WebsitePanel extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect push to="/add-websites" />;
+      return <Redirect push to="/add-topics" />;
     }
-
     return (
       <div style={{ width: "90%", height: "50%", marginBottom: "2%" }}>
         <button
@@ -42,7 +41,7 @@ class WebsitePanel extends React.Component {
             marginBottom: "2%",
           }}
         >
-          <p style={{ margin: "0" }}>Blacklist Website</p>
+          <p style={{ margin: "0" }}>Blacklist Topic</p>
           <span
             className="glyphicon glyphicon-plus-sign"
             style={{
@@ -51,13 +50,13 @@ class WebsitePanel extends React.Component {
               top: "10%",
               fontSize: "20px",
             }}
-          />
+          ></span>
         </button>
 
         <div style={{ height: "80%", width: "100%" }}>
           <List
-            items={this.props.websites}
-            toggleActive={this.props.toggleWebsite}
+            items={this.props.topics}
+            toggleActive={this.props.toggleTopic}
           />
         </div>
       </div>
@@ -65,18 +64,19 @@ class WebsitePanel extends React.Component {
   }
 }
 
-WebsitePanel.propTypes = {
-  websites: PropTypes.arrayOf(
+TopicPanel.propTypes = {
+  topics: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
-    })
+      isTrained: PropTypes.bool.isRequired,
+    }).isRequired
   ).isRequired,
-  toggleWebsite: PropTypes.func.isRequired,
+  toggleTopic: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  websites: state.websites,
+  topics: state.topics,
 });
 
-export default connect(mapStateToProps, { toggleWebsite })(WebsitePanel);
+export default connect(mapStateToProps, { toggleTopic })(TopicPanel);

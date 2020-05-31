@@ -3,6 +3,6 @@ import topicReducer from "./topicReducer";
 import websiteReducer from "./websiteReducer";
 
 export default combineReducers({
-  labels: topicReducer,
+  topics: topicReducer,
   websites: websiteReducer,
 });

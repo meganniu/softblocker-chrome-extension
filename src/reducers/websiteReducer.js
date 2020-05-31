@@ -2,24 +2,30 @@ import { ADD_WEBSITE, DELETE_WEBSITE, TOGGLE_WEBSITE } from "../actions/types";
 
 const addWebsite = (state, action) => {
   let isPresent = false;
-  state.forEach((el) => {
-    if (el.name === action.website) {
-      isPresent = true;
+  const website = action.payload.website;
+  let newState = [...state];
+
+  if (website.length > 0) {
+    state.forEach((el) => {
+      if (el.name === website) {
+        isPresent = true;
+      }
+    });
+
+    if (isPresent === false) {
+      newState.push({ name: website, isActive: false });
     }
-  });
-  if (isPresent === false) {
-    state.push({ name: action.website, isActive: false });
   }
-  return state;
+  return newState;
 };
 
 const deleteWebsite = (state, action) => {
-  return state.filter((el) => el.name !== action.website);
+  return state.filter((el) => el.name !== action.payload.website);
 };
 
 const toggleWebsite = (state, action) => {
   return state.map((el) => {
-    if (el.name === action.website) {
+    if (el.name === action.payload.website) {
       el.isActive = !el.isActive;
     }
     return el;

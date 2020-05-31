@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 class ListItem extends React.Component {
   render() {
-    // console.log(this.props.item);
-    console.log("HERE");
     return (
       <div
         style={{
@@ -14,10 +12,15 @@ class ListItem extends React.Component {
         }}
       >
         <p style={{ textAlign: "center" }}>{this.props.name}</p>
-        <label className="switch">
-          <input type="checkbox" />
-          <span className="slider round"></span>
-        </label>
+        {this.props.isActive !== null && this.props.isActive !== undefined && (
+          <label
+            className="switch"
+            style={{ opacity: this.props.isTrained === false ? "50%" : "100%" }}
+          >
+            <input type="checkbox" disabled={this.props.isTrained === false} />
+            <span className="slider round"></span>
+          </label>
+        )}
       </div>
     );
   }
@@ -25,8 +28,9 @@ class ListItem extends React.Component {
 
 ListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  toggleActive: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
+  isTrained: PropTypes.bool,
+  toggleActive: PropTypes.func,
 };
 
 export default ListItem;
