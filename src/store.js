@@ -5,7 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
   websites: [{ name: "youtube.com", isActive: false }],
-  topics: [{ name: "Einstein", isActive: false, isTrained: false }],
+  topics: [{ name: "Einstein", isActive: false, isTrained: true }],
 };
 
 const middleware = [thunk];

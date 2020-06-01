@@ -2,6 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 
 class ListItem extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleToggle = this.handleToggle.bind(this);
+  }
+
+  handleToggle() {
+    console.log("HERE");
+    this.props.toggleActive(this.props.name);
+  }
+
   render() {
     return (
       <div
@@ -17,7 +28,11 @@ class ListItem extends React.Component {
             className="switch"
             style={{ opacity: this.props.isTrained === false ? "50%" : "100%" }}
           >
-            <input type="checkbox" disabled={this.props.isTrained === false} />
+            <input
+              type="checkbox"
+              onChange={this.handleToggle}
+              disabled={this.props.isTrained === false}
+            />
             <span className="slider round"></span>
           </label>
         )}

@@ -41,7 +41,7 @@ class TopicPanel extends React.Component {
             marginBottom: "2%",
           }}
         >
-          <p style={{ margin: "0" }}>Blacklist Topic</p>
+          <p style={{ margin: "0" }}>Whitelist Topic</p>
           <span
             className="glyphicon glyphicon-plus-sign"
             style={{
