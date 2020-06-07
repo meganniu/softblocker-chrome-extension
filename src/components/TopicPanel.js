@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
-import { toggleTopic } from "../actions/topicActions";
+import { toggleTopic, fetchTopics } from "../actions/topicActions";
 import List from "./List";
 
 class TopicPanel extends React.Component {
@@ -16,6 +16,12 @@ class TopicPanel extends React.Component {
 
   handleAddBtnClick() {
     this.setState({ redirect: true });
+  }
+
+  componentWillMount() {
+    if (!this.props.isFetching) {
+      this.props.fetchTopics(this.props.userId);
+    }
   }
 
   render() {
@@ -65,6 +71,7 @@ class TopicPanel extends React.Component {
 }
 
 TopicPanel.propTypes = {
+  userId: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -73,10 +80,15 @@ TopicPanel.propTypes = {
     }).isRequired
   ).isRequired,
   toggleTopic: PropTypes.func.isRequired,
+  fetchTopics: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  topics: state.topics,
+  userId: state.userId,
+  topics: state.topics.list,
+  isFetchingTopics: state.topics.isFetching,
 });
 
-export default connect(mapStateToProps, { toggleTopic })(TopicPanel);
+export default connect(mapStateToProps, { toggleTopic, fetchTopics })(
+  TopicPanel
+);

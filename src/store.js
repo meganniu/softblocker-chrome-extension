@@ -4,8 +4,13 @@ import rootReducer from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
+  userId: "f0NMjg0XLjQAiZzJvIE9",
   websites: [{ name: "youtube.com", isActive: false }],
-  topics: [{ name: "Einstein", isActive: false, isTrained: true }],
+  topics: {
+    // list: [{ name: "Einstein", isActive: false, isTrained: true }],
+    list: [],
+    isFetching: false,
+  },
 };
 
 const middleware = [thunk];

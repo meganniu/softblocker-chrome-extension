@@ -24,7 +24,7 @@ class AddWebsitesPanel extends React.Component {
   }
 
   handleSubmit(event) {
-    this.props.addTopic(this.state.newTopic);
+    this.props.addTopic(this.state.newTopic, this.props.userId);
     document.getElementById("topic-form").reset();
     event.preventDefault();
   }
@@ -92,6 +92,7 @@ class AddWebsitesPanel extends React.Component {
 }
 
 AddWebsitesPanel.propTypes = {
+  userId: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -101,7 +102,8 @@ AddWebsitesPanel.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  topics: state.topics.map((el) => ({ name: el.name })),
+  userId: state.userId,
+  topics: state.topics.list.map((el) => ({ name: el.name })),
 });
 
 export default connect(mapStateToProps, { addTopic })(AddWebsitesPanel);

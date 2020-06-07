@@ -1,18 +1,24 @@
-import { ADD_TOPIC, DELETE_TOPIC, TOGGLE_TOPIC } from "../actions/types";
+import {
+  ADD_TOPIC,
+  DELETE_TOPIC,
+  TOGGLE_TOPIC,
+  REQUEST_TOPICS,
+  RECIEVE_TOPICS,
+} from "../actions/types";
 
 const addTopic = (state, action) => {
   let isPresent = false;
   const topic = action.payload.topic;
-  let newState = [...state];
+  let newState = Object.assign({}, state);
   if (topic.length > 0) {
-    state.forEach((el) => {
+    newState.list.forEach((el) => {
       if (el.name === topic) {
         isPresent = true;
       }
     });
 
     if (isPresent === false) {
-      newState.push({ name: topic, isActive: false, isTrained: false });
+      newState.list.push({ name: topic, isActive: false, isTrained: false });
     }
   }
 
@@ -20,16 +26,38 @@ const addTopic = (state, action) => {
 };
 
 const deleteTopic = (state, action) => {
-  return state.filter((el) => el.name !== action.payload.topic);
+  return Object.assign({}, state, {
+    list: state.list.filter((el) => el.name !== action.payload.topic),
+  });
 };
 
 const toggleTopic = (state, action) => {
-  return state.map((el) => {
-    if (el.name === action.payload.topic && el.isTrained === true) {
-      el.isActive = !el.isActive;
-    }
-    return el;
+  return Object.assign({}, state, {
+    list: state.list.map((el) => {
+      if (el.name === action.payload.topic && el.isTrained === true) {
+        el.isActive = !el.isActive;
+      }
+      return el;
+    }),
   });
+};
+
+const requestTopics = (state, action) => {
+  return Object.assign({}, state, { isFetching: true });
+};
+
+const recieveTopics = (state, action) => {
+  const list = action.payload.topics.map((el) => ({
+    name: el.name,
+    isTrained: el.isTrained,
+    isActive: el.isTrained,
+  }));
+
+  list.sort((lhs, rhs) => (lhs.name > rhs.name ? 1 : -1));
+  return {
+    isFetching: false,
+    list,
+  };
 };
 
 const initialState = [];
@@ -42,6 +70,10 @@ export default (state = initialState, action) => {
       return deleteTopic(state, action);
     case TOGGLE_TOPIC:
       return toggleTopic(state, action);
+    case REQUEST_TOPICS:
+      return requestTopics(state, action);
+    case RECIEVE_TOPICS:
+      return recieveTopics(state, action);
     default:
       return state;
   }

@@ -5,4 +5,5 @@ import websiteReducer from "./websiteReducer";
 export default combineReducers({
   topics: topicReducer,
   websites: websiteReducer,
+  userId: (state = null) => state,
 });

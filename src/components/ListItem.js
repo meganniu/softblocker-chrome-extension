@@ -9,7 +9,6 @@ class ListItem extends React.Component {
   }
 
   handleToggle() {
-    console.log("HERE");
     this.props.toggleActive(this.props.name);
   }
 
@@ -32,6 +31,7 @@ class ListItem extends React.Component {
               type="checkbox"
               onChange={this.handleToggle}
               disabled={this.props.isTrained === false}
+              checked={this.props.isActive === true}
             />
             <span className="slider round"></span>
           </label>
