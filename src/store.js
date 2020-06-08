@@ -10,6 +10,7 @@ const initialState = {
     // list: [{ name: "Einstein", isActive: false, isTrained: true }],
     list: [],
     isFetching: false,
+    isTraining: false,
   },
 };
 

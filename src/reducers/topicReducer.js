@@ -4,6 +4,8 @@ import {
   TOGGLE_TOPIC,
   REQUEST_TOPICS,
   RECIEVE_TOPICS,
+  START_TOPIC_TRAINING,
+  END_TOPIC_TRAINING,
 } from "../actions/types";
 
 const addTopic = (state, action) => {
@@ -54,10 +56,18 @@ const recieveTopics = (state, action) => {
   }));
 
   list.sort((lhs, rhs) => (lhs.name > rhs.name ? 1 : -1));
-  return {
+  return Object.assign({}, state, {
     isFetching: false,
     list,
-  };
+  });
+};
+
+const startTopicTraining = (state, action) => {
+  return Object.assign({}, state, { isTraining: true });
+};
+
+const endTopicTraining = (state, action) => {
+  return Object.assign({}, state, { isTraining: false });
 };
 
 const initialState = [];
@@ -74,6 +84,10 @@ export default (state = initialState, action) => {
       return requestTopics(state, action);
     case RECIEVE_TOPICS:
       return recieveTopics(state, action);
+    case START_TOPIC_TRAINING:
+      return startTopicTraining(state, action);
+    case END_TOPIC_TRAINING:
+      return endTopicTraining(state, action);
     default:
       return state;
   }

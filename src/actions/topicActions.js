@@ -5,6 +5,8 @@ import {
   TOGGLE_TOPIC,
   REQUEST_TOPICS,
   RECIEVE_TOPICS,
+  START_TOPIC_TRAINING,
+  END_TOPIC_TRAINING,
 } from "./types.js";
 
 export const addTopic = (topic, userId) => {
@@ -44,16 +46,44 @@ export const fetchTopics = (userId) => {
     })
       .then((response) => {
         let topics = [];
+        let isTraining = false;
+
         for (var topic of Object.keys(response.data)) {
+          if (response.data[topic].isInTraining) {
+            isTraining = true;
+          }
+
           topics.push({
             name: topic,
             isTrained: response.data[topic].isTrained,
           });
         }
+
+        if (isTraining) {
+          dispatch({ type: START_TOPIC_TRAINING });
+        } else {
+          dispatch({ type: END_TOPIC_TRAINING });
+        }
+
         dispatch({
           type: RECIEVE_TOPICS,
           payload: { topics },
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const trainTopics = (userId) => {
+  return (dispatch) => {
+    axios({
+      url: `${process.env.REACT_APP_DOMAIN}/api/profiles/${userId}/models`,
+      method: "put",
+    })
+      .then(() => {
+        dispatch({ type: START_TOPIC_TRAINING });
       })
       .catch((err) => {
         console.log(err);

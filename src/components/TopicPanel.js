@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
-import { toggleTopic, fetchTopics } from "../actions/topicActions";
+import { toggleTopic, fetchTopics, trainTopics } from "../actions/topicActions";
 import List from "./List";
 
 class TopicPanel extends React.Component {
@@ -12,10 +12,15 @@ class TopicPanel extends React.Component {
     this.state = { redirect: false };
 
     this.handleAddBtnClick = this.handleAddBtnClick.bind(this);
+    this.handleTrainBtnClick = this.handleTrainBtnClick.bind(this);
   }
 
   handleAddBtnClick() {
     this.setState({ redirect: true });
+  }
+
+  handleTrainBtnClick() {
+    this.props.trainTopics(this.props.userId);
   }
 
   componentWillMount() {
@@ -59,6 +64,37 @@ class TopicPanel extends React.Component {
           ></span>
         </button>
 
+        <button
+          type="button"
+          onClick={this.handleTrainBtnClick}
+          style={{
+            backgroundColor: "#e7e7e7",
+            color: "black",
+            width: "100%",
+            height: "10%",
+            border: "none",
+            display: "flex",
+            alignItems: "baseline",
+            flexDirection: "row",
+            justifyContent: "center",
+            position: "relative",
+            marginBottom: "2%",
+            opacity: this.props.isTrainingTopics ? "50%" : "100%",
+          }}
+          disabled={this.props.isTrainingTopics}
+        >
+          <p style={{ margin: "0" }}>Train Topics</p>
+          <span
+            className="glyphicon glyphicon-education"
+            style={{
+              position: "absolute",
+              right: "3%",
+              top: "10%",
+              fontSize: "20px",
+            }}
+          ></span>
+        </button>
+
         <div style={{ height: "80%", width: "100%" }}>
           <List
             items={this.props.topics}
@@ -81,14 +117,18 @@ TopicPanel.propTypes = {
   ).isRequired,
   toggleTopic: PropTypes.func.isRequired,
   fetchTopics: PropTypes.func.isRequired,
+  trainTopics: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   userId: state.userId,
   topics: state.topics.list,
   isFetchingTopics: state.topics.isFetching,
+  isTrainingTopics: state.topics.isTraining,
 });
 
-export default connect(mapStateToProps, { toggleTopic, fetchTopics })(
-  TopicPanel
-);
+export default connect(mapStateToProps, {
+  toggleTopic,
+  fetchTopics,
+  trainTopics,
+})(TopicPanel);
